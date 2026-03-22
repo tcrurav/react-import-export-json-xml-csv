@@ -1,0 +1,15 @@
+.home-export-examples {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: lightcoral;
+    border: 2px solid black;
+}
+
+.home-import-examples {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: lightblue;
+    border: 2px solid black;
+}
