@@ -41,6 +41,8 @@ Santa Lucía de Tirajana,2020,70235`;
         <button onClick={() => saveFileInFormat("json", json, "result-file.json")}>Export to JSON</button>
         <button onClick={() => saveFileInFormat("xml", xml, "result-file.xml")}>Export to XML</button>
         <button onClick={() => saveFileInFormat("csv", csv, "result-file.csv")}>Export to CSV</button>
+        <button onClick={() => saveFileInFormat("xlsx", [json], "result-file.xlsx")}>Export to XLSX</button>
+        <button onClick={() => saveFileInFormat("ods", [json], "result-file.ods")}>Export to ODS</button>
       </div>
 
     </>

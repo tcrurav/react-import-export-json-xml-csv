@@ -1,5 +1,6 @@
 import { showOpenFilePicker } from "show-open-file-picker";
 import Papa from "papaparse";
+import * as XLSX from "xlsx";
 
 function xmlNodeToObject(node) {
   const children = Array.from(node.children);
@@ -70,6 +71,20 @@ function parseFileContent(extension, text) {
     case "csv":
       return csvToJson(text);
 
+    case "xlsx":
+    case "xls":
+    case "ods": {
+      // `text` is expected to be an ArrayBuffer for Excel files
+      const arrayBuffer = text;
+      const workbook = XLSX.read(arrayBuffer, { type: "array" });
+      const result = {};
+      for (const sheetName of workbook.SheetNames) {
+        result[sheetName] = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { defval: null });
+      }
+
+      return workbook.SheetNames.length === 1 ? result[workbook.SheetNames[0]] : result;
+    }
+
     default:
       throw new Error(`Unsupported format: ${extension}`);
   }
@@ -86,16 +101,25 @@ export async function importFileToInternalJson() {
           "application/xml": [".xml"],
           "text/xml": [".xml"],
           "text/csv": [".csv"],
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx"],
+          "application/vnd.ms-excel": [".xls"],
+          "application/vnd.oasis.opendocument.spreadsheet": [".ods"],
         },
       },
     ],
   });
 
   const file = await fileHandle.getFile();
-  const text = await file.text();
   const extension = getExtension(file.name);
 
-  const data = parseFileContent(extension, text);
+  let content;
+  if (extension === "xlsx" || extension === "xls" || extension === "ods") {
+    content = await file.arrayBuffer();
+  } else {
+    content = await file.text();
+  }
+
+  const data = parseFileContent(extension, content);
 
   return {
     fileName: file.name,
