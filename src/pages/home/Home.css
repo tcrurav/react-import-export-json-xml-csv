@@ -13,3 +13,18 @@
     background-color: lightblue;
     border: 2px solid black;
 }
+
+.home-save-container{
+    text-align: center;
+    padding: 10px;
+}
+
+.home-save-button{
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #ffca28;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+}

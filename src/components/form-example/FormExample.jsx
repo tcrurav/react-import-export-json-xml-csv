@@ -1,7 +1,10 @@
+
+import "./FormExample.css";
+
 function FormExample(props) {
 
   return (
-    <div>
+    <div className="form-example-container">
         <h1>Form Example</h1>
         <form onSubmit={props.addLocation}>
             <label htmlFor="location-name">Location name:</label>
